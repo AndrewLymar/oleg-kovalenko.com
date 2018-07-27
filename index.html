@@ -11,21 +11,6 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery.fancybox.css?v=2.1.5" media="screen" />
 	<link rel="stylesheet" type="text/css" href="css/jquery.fancybox-thumbs.css?v=1.0.7" />
 	<link href='https://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
-	<script src="js/jquery-2.2.0.js"></script>
-	<script src="js/rotate_plugin.js"></script>
-	<script src="js/rotate.js"></script>
-	<script src="js/scroll_to.js"></script>
-	<script src="js/sendemail.js"></script>
-	<script src="js/jquery.mosaicflow.min.js"></script>
-	<script src="js/jquery.fancybox.js?v=2.1.5"></script>
-	<script src="js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
-	<script src="js/jquery.mousewheel-3.0.6.pack.js"></script>
-	<script src="js/jquery.fancybox-media.js"></script>
-	<script src="js/responsiveslides.min.js"></script>
-	<script src="js/plugins-scroll.js"></script>
-	<script src="js/only_for_ie.js"></script>
-	<script src="js/stick.js"></script>
-	<script src="js/common.js"></script>
 </head>
 
 <body>
@@ -198,41 +183,59 @@
 				<div class="fields">
 					<h2>Contact me</h2>
 					<div class="status alert alert-success" style="display: none"></div>
-					<form id="main-contact-form" class="contact-form" name="contact-form" action="/call" method="post" role="form">
+					<form id="main-contact-form" class="contact-form" name="contact-form" method="post" netlify>
 						<p><input type="text" required="required" placeholder="Your name*" name="name" value="" pattern="^[А-Яа-яЁёa-zA-Z\s]+$" title="Enter the correct name. The name can not contain numbers, special characters, only the Latin and Cyrillic."></p>
 						<p><input type="text" placeholder="Your phone number" name="telephone" value="" pattern="^((8|0|\+\d{1,2})[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$" title="Enter the correct telephone number. The number must contain only digit."></p>
 						<p><input type="text" placeholder="Your email*" name="email" value="" pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" title="Enter the correct email. The email must be like sample@mail.com."></p>
 						<p><input type="text" placeholder="Your organization name" name="organization" value=""></p>
 						<p><textarea placeholder="Message" name="message" rows="10" cols="45"></textarea></p>
 						<p class="required-text">* Fields are required</p>
-						<p><button value="Send">Send</p>
-                    </form>
-                </div>
-                <div class="contacts-info clearfix">
-                    <div class="telephones">
-                        <h2>My contacts:</h2>
-                        <p><span>Skype:</span> st.blacksmith8</p>
-                        <p><span>Email:</span> St.blacksmith8@gmail.com</p>
-                    </div>
-                    <div class="socials clearfix">
-                        <a href ="https://www.instagram.com/st.smith8/" target="_blank">
-                            <img src="img/instagram.png">
-                        </a>
-                        <a href ="https://ca.linkedin.com/in/oleg-kovalenko-a121b0b7" target="_blank">
-                            <img src="img/linkedin.png">
-                        </a>
-                        <a href ="https://twitter.com/st_smith8" target="_blank">
-                            <img src="img/twitter.png">
-                        </a>
-                        <a href ="https://www.facebook.com/st.smith8/" target="_blank">
-                            <img src="img/facebook.png">
-                        </a>
-                    </div>  
-                </div>
-            </div>
-            
-        </section><!--/#contact-->
-    <footer id="footer">
-    </footer><!--/#footer-->
+						<button value="Send">Send</button>
+					</form>
+				</div>
+				<div class="contacts-info clearfix">
+					<div class="telephones">
+						<h2>My contacts:</h2>
+						<p><span>Skype:</span> st.blacksmith8</p>
+						<p><span>Email:</span> St.blacksmith8@gmail.com</p>
+					</div>
+					<div class="socials clearfix">
+						<a href="https://www.instagram.com/st.smith8/" target="_blank">
+							<img src="img/instagram.png">
+						</a>
+						<a href="https://ca.linkedin.com/in/oleg-kovalenko-a121b0b7" target="_blank">
+							<img src="img/linkedin.png">
+						</a>
+						<a href="https://twitter.com/st_smith8" target="_blank">
+							<img src="img/twitter.png">
+						</a>
+						<a href="https://www.facebook.com/st.smith8/" target="_blank">
+							<img src="img/facebook.png">
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</section>
+		<!--/#contact-->
+		<footer id="footer">
+		</footer>
+		<!--/#footer-->
+		<script src="js/jquery-2.2.0.js"></script>
+		<script src="js/rotate_plugin.js"></script>
+		<script src="js/rotate.js"></script>
+		<script src="js/scroll_to.js"></script>
+		<script src="js/sendemail.js"></script>
+		<script src="js/jquery.mosaicflow.min.js"></script>
+		<script src="js/jquery.fancybox.js?v=2.1.5"></script>
+		<script src="js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+		<script src="js/jquery.mousewheel-3.0.6.pack.js"></script>
+		<script src="js/jquery.fancybox-media.js"></script>
+		<script src="js/responsiveslides.min.js"></script>
+		<script src="js/plugins-scroll.js"></script>
+		<script src="js/only_for_ie.js"></script>
+		<script src="js/stick.js"></script>
+		<script src="js/common.js"></script>
 </body>
+
 </html>
