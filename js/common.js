@@ -102,6 +102,7 @@ $(document).ready(function () {
 		e.preventDefault();
 
 		var $form = $(this);
+		$(".success").fadeIn(0);
 		$.post($form.attr("action"), $form.serialize()).then(function () {
 			$(".success").text("Thank you! Your message has been sent");
 			setTimeout(function () {
