@@ -683,6 +683,12 @@ button:hover {
 	font-size: 0.9em;
 }
 
+.success {
+	display: none;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
 
 /*-- Input Hide --*/
 

@@ -103,7 +103,10 @@ $(document).ready(function () {
 
 		var $form = $(this);
 		$.post($form.attr("action"), $form.serialize()).then(function () {
-			alert("Thank you!");
+			$(".success").text("Thank you! Your message has been sent");
+			setTimeout(function () {
+				$(".success ").fadeOut();
+			}, 2000);
 		});
 	});
 
