@@ -20,19 +20,22 @@ var gulp = require('gulp'),
 
 gulp.task('js', function () {
 	return gulp.src([
+		/*
 		'app/js/jquery-2.2.0.js',
 		'app/js/rotate_plugin.js',
 		'app/js/rotate.js',
+		'app/js/scroll_to.js',
 		'app/js/jquery.mosaicflow.min.js',
 		'app/js/jquery.fancybox.js?v=2.1.5',
 		'app/js/jquery.fancybox-thumbs.js?v=1.0.7',
-		'app/js/jquery.mousewheel-3.0.6.pack.js',
 		'app/js/jquery.fancybox-media.js',
+		'app/js/jquery.mousewheel-3.0.6.pack.js',
 		'app/js/responsiveslides.min.js',
 		'app/js/plugins-scroll.js',
 		'app/js/only_for_ie.js',
 		'app/js/stick.js',
 		'app/js/common.js'
+		*/
 		])
 		.pipe(concat('scripts.min.js'))
 		.pipe(uglify())
@@ -54,7 +57,7 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('sass', function () {
-	return gulp.src('app/scss/**/*.scss')
+	return gulp.src('app/css/main.css')
 		.pipe(sass({
 			outputStyle: 'expand'
 		}).on("error", notify.onError()))
