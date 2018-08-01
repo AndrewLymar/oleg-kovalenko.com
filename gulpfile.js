@@ -81,6 +81,7 @@ gulp.task('imgmin', function () {
       imagemin.jpegtran({
 				progressive: true
 			}),
+	/*
       imageminJpegRecompress({
 				quality: 'veryhigh'
 			}),
@@ -92,6 +93,7 @@ gulp.task('imgmin', function () {
 				quality: '100',
 				speed: 5
 			})
+			*/
     ], {
 			verbose: true
 		})))
