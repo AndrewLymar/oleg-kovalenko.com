@@ -24,6 +24,7 @@
     "gulp-util": "^3.0.8"
   },
   "dependencies": {
+    "del": "^3.0.0",
     "gulp-pngquant": "^1.0.12",
     "imagemin-jpeg-recompress": "^5.1.0",
     "imagemin-pngquant": "^6.0.0"
