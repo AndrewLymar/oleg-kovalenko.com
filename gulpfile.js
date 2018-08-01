@@ -4,46 +4,15 @@ var gulp = require('gulp'),
 	browserSync = require('browser-sync'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
-	cleanCSS = require('gulp-clean-css'),
+	cleancss = require('gulp-clean-css'),
 	rename = require('gulp-rename'),
-	del = require('del'),
-	imagemin = require('gulp-imagemin'),
-	cache = require('gulp-cache'),
-	svgSprite = require('gulp-svg-sprite'),
-	svgmin = require('gulp-svgmin'),
-	cheerio = require('gulp-cheerio'),
-	replace = require('gulp-replace'),
 	autoprefixer = require('gulp-autoprefixer'),
-	ftp = require('vinyl-ftp'),
 	notify = require("gulp-notify"),
+	imagemin = require('gulp-imagemin'),
+	imageminJpegRecompress = require('imagemin-jpeg-recompress'),
+	pngquant = require('imagemin-pngquant'),
+	cache = require('gulp-cache'),
 	rsync = require('gulp-rsync');
-
-gulp.task('js', function () {
-	return gulp.src([
-		/*
-		'app/js/jquery-2.2.0.js',
-		'app/js/rotate_plugin.js',
-		'app/js/rotate.js',
-		'app/js/scroll_to.js',
-		'app/js/jquery.mosaicflow.min.js',
-		'app/js/jquery.fancybox.js?v=2.1.5',
-		'app/js/jquery.fancybox-thumbs.js?v=1.0.7',
-		'app/js/jquery.fancybox-media.js',
-		'app/js/jquery.mousewheel-3.0.6.pack.js',
-		'app/js/responsiveslides.min.js',
-		'app/js/plugins-scroll.js',
-		'app/js/only_for_ie.js',
-		'app/js/stick.js',
-		'app/js/common.js'
-		*/
-		])
-		.pipe(concat('scripts.min.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest('app/js'))
-		.pipe(browserSync.reload({
-			stream: true
-		}));
-});
 
 gulp.task('browser-sync', function () {
 	browserSync({
@@ -51,130 +20,106 @@ gulp.task('browser-sync', function () {
 			baseDir: 'app'
 		},
 		notify: false,
-		// tunnel: true,
-		// tunnel: "projectmane", //Demonstration page: http://projectmane.localtunnel.me
-	});
+		// open: false,
+		// online: false, // Work Offline Without Internet Connection
+		// tunnel: true, tunnel: "projectname", // Demonstration page: http://projectname.localtunnel.me
+	})
 });
 
-gulp.task('sass', function () {
-	return gulp.src('app/css/main.css')
+gulp.task('styles', function () {
+	return gulp.src('app/scss/**/*.scss')
 		.pipe(sass({
-			outputStyle: 'expand'
+			outputStyle: 'expanded'
 		}).on("error", notify.onError()))
 		.pipe(rename({
 			suffix: '.min',
 			prefix: ''
 		}))
-		.pipe(autoprefixer(['last 5 versions']))
-		.pipe(cleanCSS())
-		.pipe(gulp.dest('app/css'))
-		.pipe(browserSync.reload({
-			stream: true
-		}));
-});
-
-gulp.task('watch', ['sass', 'js', 'browser-sync'], function () {
-	gulp.watch('app/scss/**/*.scss', ['sass']);
-	gulp.watch(['libs/**/*.js', 'app/js/common.js'], ['js']);
-	gulp.watch('app/*.html', browserSync.reload);
-});
-
-gulp.task('svg', function () {
-	return gulp.src('src/img/icons/*.svg')
-		.pipe(svgmin({
-			js2svg: {
-				pretty: true
-			}
-		}))
-		.pipe(cheerio({
-			run: function ($) {
-				$('[fill]').removeAttr('fill');
-				$('[stroke]').removeAttr('stroke');
-				$('[style]').removeAttr('style');
-			},
-			parserOptions: {
-				xmlMode: true
-			}
-		}))
-		.pipe(replace('&gt;', '>'))
-		.pipe(svgSprite({
-			mode: {
-				symbol: {
-					sprite: "sprite.svg"
+		//.pipe(autoprefixer(['last 15 versions']))
+		.pipe(cleancss({
+			level: {
+				1: {
+					specialComments: 0
 				}
 			}
+		})) // Opt., comment out when debugging
+		.pipe(gulp.dest('app/css'))
+		.pipe(browserSync.stream())
+});
+
+gulp.task('js', function () {
+	return gulp.src([
+		'app/js/jquery-2.2.0.js',
+		'app/js/rotate_plugin.js',
+		'app/js/rotate.js',
+		'app/js/scroll_to.js',
+		'app/js/jquery.mosaicflow.min.js',
+		'app/js/jquery.fancybox.js',
+		'app/js/jquery.fancybox-thumbs.js',
+		'app/js/jquery.fancybox-media.js',
+		'app/js/jquery.mousewheel-3.0.6.pack.js',
+		'app/js/responsiveslides.min.js',
+		'app/js/plugins-scroll.js',
+		'app/js/only_for_ie.js',
+		'app/js/stick.js',
+		'app/js/common.js'
+		])
+		.pipe(concat('scripts.min.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest('app/js'))
+		.pipe(browserSync.reload({
+			stream: true
 		}))
-		.pipe(gulp.dest('src/img/icons/'));
 });
 
-gulp.task('imagemin', function () {
-	return gulp.src('app/img/**/*')
-		// .pipe(cache(imagemin())) // Cache Images
-		.pipe(imagemin())
-		.pipe(gulp.dest('dist/img'));
+gulp.task('imgmin', function () {
+	return gulp.src("app/img-not-optim/**")
+		.pipe(cache(imagemin([
+      imagemin.gifsicle({
+				interlaced: true
+			}),
+      imagemin.jpegtran({
+				progressive: true
+			}),
+      imageminJpegRecompress({
+				quality: 'veryhigh'
+			}),
+      imagemin.svgo(),
+      imagemin.optipng({
+				optimizationLevel: 0
+			}),
+      pngquant({
+				quality: '100',
+				speed: 5
+			})
+    ], {
+			verbose: true
+		})))
+		.pipe(gulp.dest("app/img"));
 });
 
-gulp.task('build', ['removedist', 'imagemin', 'sass', 'js'], function () {
-
-	var buildFiles = gulp.src([
-		'app/*.html',
-		'app/.htaccess',
-		]).pipe(gulp.dest('dist'));
-
-	var buildCss = gulp.src([
-		'app/css/main.min.css',
-		]).pipe(gulp.dest('dist/css'));
-
-	var buildJs = gulp.src([
-		'app/js/scripts.min.js',
-		]).pipe(gulp.dest('dist/js'));
-
-	var buildFonts = gulp.src([
-		'app/fonts/**/*',
-		]).pipe(gulp.dest('dist/fonts'));
-
-});
-
-gulp.task('deploy', function () {
-
-	var conn = ftp.create({
-		host: 'hostname.com',
-		user: 'username',
-		password: 'userpassword',
-		parallel: 10,
-		log: gutil.log
-	});
-
-	var globs = [
-	'dist/**',
-	'dist/.htaccess',
-	];
-	return gulp.src(globs, {
-			buffer: false
-		})
-		.pipe(conn.dest('/path/to/folder/on/server'));
-
+gulp.task('clear', function (done) {
+	return cache.clearAll(done);
 });
 
 gulp.task('rsync', function () {
-	return gulp.src('dist/**')
+	return gulp.src('app/**')
 		.pipe(rsync({
-			root: 'dist/',
+			root: 'app/',
 			hostname: 'username@yousite.com',
 			destination: 'yousite/public_html/',
-			// include: ['*.htaccess'],
+			// include: ['*.htaccess'], // Includes files to deploy
+			exclude: ['**/Thumbs.db', '**/*.DS_Store'], // Excludes files from deploy
 			recursive: true,
 			archive: true,
 			silent: false,
 			compress: true
-		}));
+		}))
 });
 
-gulp.task('removedist', function () {
-	return del.sync('dist');
-});
-gulp.task('clearcache', function () {
-	return cache.clearAll();
+gulp.task('watch', ['styles', 'js', 'browser-sync'], function () {
+	gulp.watch('app/scss/**/*.scss', ['styles']);
+	gulp.watch('app/*.html', browserSync.reload)
 });
 
 gulp.task('default', ['watch']);
