@@ -611,7 +611,7 @@ section h1.digit:first-letter {
 }
 
 .contacts-info {
-	float: right;
+	margin-top: 25px;
 }
 
 .telephones h2 {
